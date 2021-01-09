@@ -5,3 +5,8 @@ spring:
     password:
 
 jpa.show-sql: true
+
+vendorAPI:
+  url: https://www.abibliadigital.com.br/api/
+  username: yourUsername
+  password: yourPassword
