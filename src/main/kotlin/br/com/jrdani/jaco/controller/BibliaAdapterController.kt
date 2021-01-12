@@ -3,18 +3,16 @@ package br.com.jrdani.jaco.controller
 import br.com.jrdani.jaco.model.BibliaVersiculoResponse
 import br.com.jrdani.jaco.model.enums.Livro
 import br.com.jrdani.jaco.model.vendor.VendorVerse
+import br.com.jrdani.jaco.service.vendor.UserAccessService
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.client.RestTemplate
 
-@Controller
+@RestController
 @RequestMapping("/biblia")
 class BibliaAdapterController(
-    private val restTemplate: RestTemplate
+    private val restTemplate: RestTemplate,
+    private val userAccessService: UserAccessService
 ) {
 
     //TODO: Cache Results with Redis
@@ -23,7 +21,7 @@ class BibliaAdapterController(
         @PathVariable book: Livro,
         @PathVariable chapter: Int,
         @PathVariable number: Int
-    ): ResponseEntity<BibliaVersiculoResponse> {
+    ): ResponseEntity<BibliaVersiculoResponse>? {
         val uri =  "/verses/nvi/${book.abbrev}/${chapter}/${number}"
         val vendorResponse = restTemplate.getForObject(uri, VendorVerse::class.java)!!
 
